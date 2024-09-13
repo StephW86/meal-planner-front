@@ -1,0 +1,35 @@
+https://coolors.co/074f57-077187-74a57f-9ece9a-e4c5af
+
+- Tailwind
+
+{ 'midnight_green': { DEFAULT: '#074f57', 100: '#010f11', 200: '#031f22', 300: '#042e33', 400: '#063e44', 500: '#074f57', 600: '#0d93a2', 700: '#17d7ec', 800: '#64e4f2', 900: '#b2f2f9' }, 'cerulean': { DEFAULT: '#077187', 100: '#01171b', 200: '#032e36', 300: '#044551', 400: '#065b6d', 500: '#077187', 600: '#0badcd', 700: '#2ed3f4', 800: '#73e2f8', 900: '#b9f0fb' }, 'cambridge_blue': { DEFAULT: '#74a57f', 100: '#162219', 200: '#2c4431', 300: '#42664a', 400: '#598863', 500: '#74a57f', 600: '#90b698', 700: '#acc9b2', 800: '#c7dbcc', 900: '#e3ede5' }, 'celadon': { DEFAULT: '#9ece9a', 100: '#1a3118', 200: '#33622f', 300: '#4d9347', 400: '#71b76a', 500: '#9ece9a', 600: '#b3d9af', 700: '#c6e2c3', 800: '#d9ecd7', 900: '#ecf5eb' }, 'desert_sand': { DEFAULT: '#e4c5af', 100: '#3c2514', 200: '#794a28', 300: '#b56f3c', 400: '#d09972', 500: '#e4c5af', 600: '#ead1bf', 700: '#efdccf', 800: '#f4e8df', 900: '#faf3ef' } }
+
+- CSV
+
+074f57,077187,74a57f,9ece9a,e4c5af
+
+- With #
+
+#074f57, #077187, #74a57f, #9ece9a, #e4c5af
+
+- Array
+
+["074f57","077187","74a57f","9ece9a","e4c5af"]
+
+- Object
+
+{"Midnight green":"074f57","Cerulean":"077187","Cambridge blue":"74a57f","Celadon":"9ece9a","Desert sand":"e4c5af"}
+
+- Extended Array
+
+[{"name":"Midnight green","hex":"074f57","rgb":[7,79,87],"cmyk":[92,9,0,66],"hsb":[186,92,34],"hsl":[186,85,18],"lab":[30,-17,-11]},{"name":"Cerulean","hex":"077187","rgb":[7,113,135],"cmyk":[95,16,0,47],"hsb":[190,95,53],"hsl":[190,90,28],"lab":[44,-18,-20]},{"name":"Cambridge blue","hex":"74a57f","rgb":[116,165,127],"cmyk":[30,0,23,35],"hsb":[133,30,65],"hsl":[133,21,55],"lab":[63,-24,15]},{"name":"Celadon","hex":"9ece9a","rgb":[158,206,154],"cmyk":[23,0,25,19],"hsb":[115,25,81],"hsl":[115,35,71],"lab":[78,-26,21]},{"name":"Desert sand","hex":"e4c5af","rgb":[228,197,175],"cmyk":[0,14,23,11],"hsb":[25,23,89],"hsl":[25,50,79],"lab":[82,8,15]}]
+
+- XML
+
+<palette>
+  <color name="Midnight green" hex="074f57" r="7" g="79" b="87" />
+  <color name="Cerulean" hex="077187" r="7" g="113" b="135" />
+  <color name="Cambridge blue" hex="74a57f" r="116" g="165" b="127" />
+  <color name="Celadon" hex="9ece9a" r="158" g="206" b="154" />
+  <color name="Desert sand" hex="e4c5af" r="228" g="197" b="175" />
+</palette>
