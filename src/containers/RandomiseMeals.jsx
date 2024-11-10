@@ -62,7 +62,29 @@ const RandomiseMeals = ({ setFilters }) => {
   }
 
   const mealTypeOptions = () => {
-    const mealTypes = ["Main", "Dessert", "Starter", "Side", "Snack", "Breakfast", "Sauce"]
+    const mealTypes = [
+      "Main",
+      "Dessert",
+      "Starter",
+      "Lunch",
+      "Side",
+      "Snack",
+      "Breakfast",
+      "Sauce",
+      "Dinner",
+      "Indian",
+      "Italian",
+      "Japanese",
+      "Asian",
+      "Middle Eastern",
+      "Mexican",
+      "Spanish",
+      "Thai",
+      "Portuguese",
+      "Mauritian",
+      "Moroccan"
+    ]
+
     return (
       mealTypes.map(mealType => <option key={mealType.toLowerCase()} value={mealType.toLowerCase()}>{mealType}</option>)
     )

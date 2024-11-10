@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useForm, Controller } from "react-hook-form";
 import Button from "../components/Button";
@@ -58,16 +58,20 @@ const StyledSubmitButton = styled(Button)`
 `;
 
 const CreateMeal = () => {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control, reset, watch } = useForm({
+    defaultValues: {
+      mealName: '',
+      selectedTags: [],
+    }
+  });
+
   const [mealName, setMealName] = useState('');
   const [ingredient, setIngredient] = useState('');
   const [amount, setAmount] = useState('');
   const [amountType, setAmountType] = useState('');
   const [ingredients, setIngredients] = useState([]);
 
-  useEffect(() => {
-    console.log('ingredients', ingredients)
-  }, [ingredients])
+  const selectedTags = watch('selectedTags');
 
   const handleChange = (event, setValueFunction) => {
     setValueFunction(event.target.value);
@@ -75,11 +79,11 @@ const CreateMeal = () => {
 
   const handleAddIngredient = () => {
     const newIngredient = {
-      'ingredient': ingredient,
-      'amount': amount,
-      'amount_type': amountType
+      ingredient,
+      amount,
+      amount_type: amountType
     }
-    setIngredients(ingredients => [...ingredients, newIngredient])
+    setIngredients([...ingredients, newIngredient])
     setIngredient('')
     setAmount('')
     setAmountType('')
@@ -92,6 +96,7 @@ const CreateMeal = () => {
     { value: 'side' , label: "Side" },
     { value: 'snack' , label: "Snack" },
     { value: 'breakfast' , label: "Breakfast" },
+    { value: 'dinner' , label: "Dinner" },
     { value: 'sauce' , label: "Sauce" },
     { value: 'indian' , label: "Indian" },
     { value: 'italian' , label: "Italian" },
@@ -114,37 +119,43 @@ const CreateMeal = () => {
 
   const onSubmit = async (meal) => {
     try {
-      const tags = meal.mealTags.map((tag) => tag.value)
+      const tags = meal.selectedTags.map((tag) => tag.value)
 
       const mealDetails = {
-        name: meal.mealName,
-        ingredients: ingredients,
-        tags: tags
+        name: mealName,
+        ingredients,
+        tags
       };
 
       console.log('SUBMIT', mealDetails);
       await addMeal(mealDetails);
+
+      reset();
+      setMealName('');
+      setAmount('');
+      setAmountType('');
+      setIngredient('');
+      setIngredients([]);
     } catch (error) {
       console.error("Couldn't add meal", error);
     }
   }
 
   const removeIngredient = (ingredient) => {
-    const ingredientToDelete = ingredient.ingredient
-    const updatedIngredients = ingredients.filter(
-      (item) => item.ingredient !== ingredientToDelete
-    );
-
-    setIngredients(updatedIngredients)
+    setIngredients(ingredients.filter(item => item.ingredient !== ingredient.ingredient ))
   }
 
-  const showAddIngredientButton = () => {
-    if (amountType === '' || ingredient === '' || amount === '') return true
+  const disableAddIngredientButton = () => {
+    return !amountType || !ingredient || !amount
+  }
 
-    return false
+  const disableSubmitMealButton = () => {
+    return !ingredients.length || !mealName || !selectedTags.length
   }
 
   const showIngredients = (ingredients) => {
+    console.log('SELECTED TAGS', selectedTags)
+
     return ingredients.map((ingredient) => (
       <div key={ingredient.ingredient}>
         {ingredient.amount} {ingredient.amount_type} {ingredient.ingredient}
@@ -204,7 +215,7 @@ const CreateMeal = () => {
         </FormField>
         <IngredientButton
           type="button"
-          disabled={showAddIngredientButton()}
+          disabled={disableAddIngredientButton()}
           onClick={() => handleAddIngredient()}>
           Add ingredient
         </IngredientButton>
@@ -214,7 +225,7 @@ const CreateMeal = () => {
         <div>
           <Controller
             control={control}
-            name="mealTags"
+            name="selectedTags"
             render={({ field }) => (
               <MultiSelect
                 options={sortedMeals}
@@ -227,7 +238,9 @@ const CreateMeal = () => {
             )}
           />
         </div>
-        <StyledSubmitButton type="submit">
+        <StyledSubmitButton
+          disabled={disableSubmitMealButton()}
+          type="submit">
           Submit meal
         </StyledSubmitButton>
       </StyledForm>
