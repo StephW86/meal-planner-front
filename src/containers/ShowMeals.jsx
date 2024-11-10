@@ -46,10 +46,12 @@ const ShowMeals = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
+        setError('');
         const filteredMeals = await getMeals({ filters })
         console.log('FILTERED MEALS', filteredMeals);
         setMeals(filteredMeals);
       } catch (error) {
+        console.error("Error fetching meals:", error);
         setError("No meals found");
       }
     }
