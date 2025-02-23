@@ -71,6 +71,7 @@ const RandomiseMeals = ({ setFilters }) => {
       "Snack",
       "Breakfast",
       "Sauce",
+      "Soup",
       "Dinner",
       "Indian",
       "Italian",

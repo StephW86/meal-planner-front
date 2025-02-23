@@ -18,25 +18,28 @@ const StyledForm = styled.form`
 `;
 
 const FormField = styled.div`
-  padding: 10px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 20px;
 `;
 
 const Label = styled.label`
   display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
 
   @media: (max-width: 600px) {
     flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    margin-right: 0;
   }
 `;
 
-const IngredientButton = styled(Button)`
-  border-color: #077187;
-  background-color: transparent;
-  width: 100px;
-`;
-
 const StyledInput = styled.input`
+  flex-grow: 1;
   padding: 5px;
   margin-left: 10px;
   border: 2px solid rgba(116, 165, 127, 0.5);
@@ -44,17 +47,31 @@ const StyledInput = styled.input`
   width: auto;
 
   @media (max-width: 600px) {
-    margin-left: 0px;
+  margin-left: 0px;
   }
 `;
 
-const StyledSubmitButton = styled(Button)`
-  margin: 0px;
+const ButtonWrapper = styled.div`
+  display: flex;
   justify-content: flex-end;
+`;
 
+const IngredientButton = styled(Button)`
+  border-color: #077187;
+  background-color: transparent;
+  width: 100px;
+  justify-content: flex-end;
+`;
+
+const StyledSubmitButton = styled(Button)`
   @media (max-width: 600px) {
     margin-left: 0px;
   }
+  justify-content: flex-end;
+`;
+
+const StyledControllerWrapper = styled.div`
+  padding: 8px;
 `;
 
 const CreateMeal = () => {
@@ -68,7 +85,6 @@ const CreateMeal = () => {
   const [mealName, setMealName] = useState('');
   const [ingredient, setIngredient] = useState('');
   const [amount, setAmount] = useState('');
-  const [amountType, setAmountType] = useState('');
   const [ingredients, setIngredients] = useState([]);
 
   const selectedTags = watch('selectedTags');
@@ -80,13 +96,11 @@ const CreateMeal = () => {
   const handleAddIngredient = () => {
     const newIngredient = {
       ingredient,
-      amount,
-      amount_type: amountType
+      amount
     }
     setIngredients([...ingredients, newIngredient])
     setIngredient('')
     setAmount('')
-    setAmountType('')
   }
 
   const mealTags = [
@@ -98,6 +112,7 @@ const CreateMeal = () => {
     { value: 'breakfast' , label: "Breakfast" },
     { value: 'dinner' , label: "Dinner" },
     { value: 'sauce' , label: "Sauce" },
+    { value: 'soup' , label: "Soup" },
     { value: 'indian' , label: "Indian" },
     { value: 'italian' , label: "Italian" },
     { value: 'japanese' , label: "Japanese" },
@@ -133,7 +148,6 @@ const CreateMeal = () => {
       reset();
       setMealName('');
       setAmount('');
-      setAmountType('');
       setIngredient('');
       setIngredients([]);
     } catch (error) {
@@ -146,7 +160,7 @@ const CreateMeal = () => {
   }
 
   const disableAddIngredientButton = () => {
-    return !amountType || !ingredient || !amount
+    return !ingredient || !amount
   }
 
   const disableSubmitMealButton = () => {
@@ -158,7 +172,7 @@ const CreateMeal = () => {
 
     return ingredients.map((ingredient) => (
       <div key={ingredient.ingredient}>
-        {ingredient.amount} {ingredient.amount_type} {ingredient.ingredient}
+        {ingredient.amount} {ingredient.ingredient}
         <Button type='button' onClick={() => removeIngredient(ingredient)}>
           X
         </Button>
@@ -182,17 +196,6 @@ const CreateMeal = () => {
         </FormField>
         <FormField>
           <Label>
-            Ingredient:
-            <StyledInput
-              id="ingredient"
-              value={ingredient}
-              {...register("ingredient")}
-              onChange={(event) => handleChange(event, setIngredient)}
-            />
-          </Label>
-        </FormField>
-        <FormField>
-          <Label>
             Amount:
             <StyledInput
               id="amount"
@@ -204,25 +207,27 @@ const CreateMeal = () => {
         </FormField>
         <FormField>
           <Label>
-            Amount type:
+            Ingredient:
             <StyledInput
-              id="amountType"
-              value={amountType}
-              {...register("amountType")}
-              onChange={(event) => handleChange(event, setAmountType)}
+              id="ingredient"
+              value={ingredient}
+              {...register("ingredient")}
+              onChange={(event) => handleChange(event, setIngredient)}
             />
           </Label>
         </FormField>
-        <IngredientButton
-          type="button"
-          disabled={disableAddIngredientButton()}
-          onClick={() => handleAddIngredient()}>
-          Add ingredient
-        </IngredientButton>
+        <ButtonWrapper>
+          <IngredientButton
+            type="button"
+            disabled={disableAddIngredientButton()}
+            onClick={() => handleAddIngredient()}>
+            Add ingredient
+          </IngredientButton>
+        </ButtonWrapper>
         {ingredients.length > 0 && (
           showIngredients(ingredients)
         )}
-        <div>
+        <StyledControllerWrapper>
           <Controller
             control={control}
             name="selectedTags"
@@ -237,12 +242,14 @@ const CreateMeal = () => {
               />
             )}
           />
-        </div>
-        <StyledSubmitButton
-          disabled={disableSubmitMealButton()}
-          type="submit">
-          Submit meal
-        </StyledSubmitButton>
+        </StyledControllerWrapper>
+        <ButtonWrapper>
+          <StyledSubmitButton
+            disabled={disableSubmitMealButton()}
+            type="submit">
+            Submit meal
+          </StyledSubmitButton>
+        </ButtonWrapper>
       </StyledForm>
     </StyledContainer>
   );
