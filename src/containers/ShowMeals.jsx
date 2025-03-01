@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import RandomiseMeals from "./RandomiseMeals";
 import Button from "../components/Button";
 import getMeals from "../common/get-meals";
+import deleteMeal from "../common/delete-meal";
 // import { useInfiniteQuery, useQueryClient } from "react-query";
 
 const StyledContainer = styled.div`
@@ -60,11 +61,19 @@ const ShowMeals = () => {
 
   // const getMeals = async ({ filters, pageParam = 1, searchParam = '' }) => {
 
-  const mealsList = (meals) => {
-    return meals.map((meal) => (
-      <MealCard key={meal._id} meal={meal} />
-    ))
-  };
+  const handleDeleteMeal = (id) => {
+    deleteMeal(id)
+    setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== id))
+  }
+
+  const mealsList = (meals) =>
+    meals.map((meal) => (
+      <MealCard
+        key={meal._id}
+        meal={meal}
+        deleteMeal={() => handleDeleteMeal(meal._id)}
+      />
+    ));
 
   return (
     <>
@@ -85,7 +94,7 @@ const ShowMeals = () => {
         <ErrorNote>{error}</ErrorNote>
       ) : (
         <Meals>
-          {meals.length > 0 ? mealsList(meals) : 'Loading...'}
+          {meals.length > 0 ? mealsList(meals) : <p>Loading...</p>}
         </Meals>
       )}
     </>
